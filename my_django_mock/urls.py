@@ -8,4 +8,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.index, name='index'),
     path('new-tab/', views.new_tab_view, name='new_tab'),
+    path('new-tab-get/', views.new_tab_get_view, name='new_tab_get'),
 ]

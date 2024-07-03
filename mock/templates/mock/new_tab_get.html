@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>別タブ（GET）</title>
+    <script>
+        function handleSubmit(event) {
+            event.preventDefault();
+            var form = event.target;
+            var userId = form.userId.value;
+            var cic = form.cic.value;
+            var url = `http://localhost:3000/ledger3?userId=${userId}&cic=${cic}`;
+
+            var newTab = window.open(url, '_blank');
+
+            if (!newTab) {
+                alert('Please allow popups for this website');
+                console.error('Failed to open new tab');
+            }
+        }
+    </script>
+</head>
+<body>
+    <h1>別タブ（GET）</h1>
+    <form method="post" onsubmit="handleSubmit(event)">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Submit</button>
+    </form>
+</body>
+</html>

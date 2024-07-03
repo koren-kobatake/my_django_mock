@@ -24,4 +24,7 @@ def index(request):
 def new_tab_view(request):
     form = LoginForm()
     return render(request, 'mock/new_tab.html', {'form': form})
-    
+
+def new_tab_get_view(request):
+    form = LoginForm()
+    return render(request, 'mock/new_tab_get.html', {'form': form})
