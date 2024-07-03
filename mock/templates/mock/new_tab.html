@@ -1,0 +1,41 @@
+<!-- mock/templates/mock/new_tab.html -->
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login</title>
+    <script>
+        async function handleSubmit(event) {
+            event.preventDefault();
+            var form = event.target;
+            var userId = form.userId.value;
+            var cic = form.cic.value;
+            var url = 'http://localhost:3000/api/ledger/login';
+            
+            var formData = new FormData();
+            formData.append('userId', userId);
+            formData.append('cic', cic);
+            
+            var response = await fetch(url, {
+                method: 'POST',
+                body: formData
+            });
+
+            if (response.ok) {
+                var responseUrl = response.url;
+                window.open(responseUrl, '_blank');
+            } else {
+                alert('Failed to login.');
+            }
+        }
+    </script>
+</head>
+<body>
+    <h1>Login</h1>
+    <form method="post" onsubmit="handleSubmit(event)">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Submit</button>
+    </form>
+</body>
+</html>
