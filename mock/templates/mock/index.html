@@ -1,19 +1,78 @@
-<!-- mock/templates/mock/index.html -->
-
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>IFrame</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portal</title>
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"> -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f3f4f6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            text-align: center;
+            background: #ffffff;
+            padding: 2em;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .title {
+            font-size: 2em;
+            margin-bottom: 0.5em;
+            color: #333;
+        }
+        .btn-group {
+            display: flex;
+            flex-direction: column;
+            gap: 1em;
+        }
+        .btn {
+            display: inline-block;
+            padding: 0.75em 1.5em;
+            font-size: 1em;
+            color: #ffffff;
+            background: #007bff;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: background 0.3s;
+        }
+        .btn:hover {
+            background: #0056b3;
+        }
+        .btn i {
+            margin-right: 0.5em;
+        }
+        .btn.disabled {
+            background: #cccccc;
+            pointer-events: none;
+        }
+    </style>
 </head>
 <body>
-    <h1>IFrame</h1>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Submit</button>
-    </form>
-    {% if iframe_url %}
-        <iframe src="{{ iframe_url }}" width="100%" height="600px"></iframe>
-    {% endif %}
+    <div class="container">
+        <div class="title">決済ポータル向け Mock遷移画面</div>
+        <div class="btn-group">
+            <a href="http://127.0.0.1:8000/new-tab-get/" target="_blank" class="btn"><i class="fas fa-external-link-alt"></i> 別タブ表示（GET）</a>
+            <a href="http://127.0.0.1:8000/new-tab/" target="_blank" class="btn disabled" id="btn-new-tab-post"><i class="fas fa-external-link-alt"></i> 別タブ表示（POST）</a>
+            <a href="http://127.0.0.1:8000/iframe/" target="_blank" class="btn disabled" id="btn-iframe-post"><i class="fas fa-window-maximize"></i> IFrame表示（POST）</a>
+        </div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', (event) => {
+            document.getElementById('btn-new-tab-post').addEventListener('click', (e) => {
+                e.preventDefault();
+            });
+            document.getElementById('btn-iframe-post').addEventListener('click', (e) => {
+                e.preventDefault();
+            });
+        });
+    </script>
 </body>
 </html>

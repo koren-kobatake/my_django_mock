@@ -1,0 +1,19 @@
+<!-- mock/templates/mock/iframe.html -->
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>IFrame</title>
+</head>
+<body>
+    <h1>IFrame</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Submit</button>
+    </form>
+    {% if iframe_url %}
+        <iframe src="{{ iframe_url }}" width="100%" height="600px"></iframe>
+    {% endif %}
+</body>
+</html>

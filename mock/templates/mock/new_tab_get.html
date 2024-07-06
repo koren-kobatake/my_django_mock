@@ -8,7 +8,7 @@
             var form = event.target;
             var userId = form.userId.value;
             var cic = form.cic.value;
-            var url = `http://localhost:3000/ledger3?userId=${userId}&cic=${cic}`;
+            var url = `http://localhost:3000/ledgerInquiry?userId=${userId}&cic=${cic}`;
 
             var newTab = window.open(url, '_blank');
 

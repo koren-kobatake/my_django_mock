@@ -7,6 +7,7 @@ from mock import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.index, name='index'),
-    path('new-tab/', views.new_tab_view, name='new_tab'),
+    path('iframe/', views.iframe, name='iframe'),
+    path('new-tab-post/', views.new_tab_post_view, name='new_tab_post'),
     path('new-tab-get/', views.new_tab_get_view, name='new_tab_get'),
 ]
