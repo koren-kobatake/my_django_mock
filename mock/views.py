@@ -45,3 +45,8 @@ def new_tab_post_view(request):
 def new_tab_get_view(request):
     form = LoginForm()
     return render(request, 'mock/new_tab_get.html', {'form': form})
+
+def new_tab_test_view(request):
+    form = LoginForm()
+    return render(request, 'mock/new_tab_test.html', {'form': form})
+

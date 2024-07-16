@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f3f4f6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            text-align: center;
+            background: #ffffff;
+            padding: 2em;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .title {
+            font-size: 2em;
+            margin-bottom: 0.5em;
+            color: #333;
+        }
+        .form-group {
+            margin-bottom: 1em;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5em;
+            color: #333;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 0.75em;
+            font-size: 1em;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .btn {
+            display: inline-block;
+            padding: 0.75em 1.5em;
+            font-size: 1em;
+            color: #ffffff;
+            background: #007bff;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+        }
+        .btn:hover {
+            background: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="title">ログイン</div>
+        <form id="login-form">
+            <div class="form-group">
+                <label for="userId">ユーザーID</label>
+                <input type="text" id="userId" name="userId" required>
+            </div>
+            <div class="form-group">
+                <label for="sessionId">セッションID</label>
+                <input type="text" id="sessionId" name="sessionId" required>
+            </div>
+            <div class="form-group">
+                <label for="cic">CIC</label>
+                <input type="text" id="cic" name="cic" required>
+            </div>
+            <div class="form-group">
+                <label for="urlPath">URLパス</label>
+                <input type="text" id="urlPath" name="urlPath" required>
+            </div>
+            <button type="submit" class="btn">ログイン</button>
+        </form>
+    </div>
+    <script>
+        document.getElementById('login-form').addEventListener('submit', async function (e) {
+            e.preventDefault();
+
+            const userId = document.getElementById('userId').value;
+            const sessionId = document.getElementById('sessionId').value;
+            const cic = document.getElementById('cic').value;
+            const urlPath = document.getElementById('urlPath').value;
+
+            try {
+                const response = await fetch('http://localhost:3000/api/loginPostTest', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ userId, sessionId, cic, urlPath })
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    // 手動でリダイレクト
+                    // window.location.href = data.redirectUrl;
+                    window.open(data.redirectUrl, '_blank');
+                } else {
+                    alert('認証に失敗しました');
+                }            
+            } catch (error) {
+                console.error('Error:', error);
+                alert('リクエストに失敗しました');
+            }
+        });
+    </script>
+</body>
+</html>
