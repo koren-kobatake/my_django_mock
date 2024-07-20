@@ -61,19 +61,10 @@
         <div class="btn-group">
             <a href="http://127.0.0.1:8000/new-tab-get/" target="_blank" class="btn"><i class="fas fa-external-link-alt"></i> 別タブ表示（GET）</a>
             <a href="http://127.0.0.1:8000/new-tab-test/" target="_blank" class="btn"><i class="fas fa-external-link-alt"></i> 別タブ表示（POST）</a>
-            <a href="http://127.0.0.1:8000/new-tab-post/" target="_blank" class="btn disabled" id="btn-new-tab-post"><i class="fas fa-external-link-alt"></i> 別タブ表示（POST）</a>
+            <a href="http://127.0.0.1:8000/new-tab-post/" target="_blank" class="btn" id="btn-new-tab-post"><i class="fas fa-external-link-alt"></i> OLD 別タブ表示（POST）</a>
+            <a href="http://127.0.0.1:8000/token-test/" target="_blank" class="btn" id="btn-token-test"><i class="fas fa-external-link-alt"></i> トークン渡し</a>
             <a href="http://127.0.0.1:8000/iframe/" target="_blank" class="btn disabled" id="btn-iframe-post"><i class="fas fa-window-maximize"></i> IFrame表示（POST）</a>
         </div>
     </div>
-    <script>
-        document.addEventListener('DOMContentLoaded', (event) => {
-            document.getElementById('btn-new-tab-post').addEventListener('click', (e) => {
-                e.preventDefault();
-            });
-            document.getElementById('btn-iframe-post').addEventListener('click', (e) => {
-                e.preventDefault();
-            });
-        });
-    </script>
 </body>
 </html>

@@ -50,3 +50,6 @@ def new_tab_test_view(request):
     form = LoginForm()
     return render(request, 'mock/new_tab_test.html', {'form': form})
 
+def token_test_view(request):
+    form = LoginForm()
+    return render(request, 'mock/token_test.html', {'form': form})
