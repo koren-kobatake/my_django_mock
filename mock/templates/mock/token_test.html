@@ -55,11 +55,12 @@
             background: #0056b3;
         }
     </style>
+
 </head>
 <body>
     <div class="container">
         <div class="title">ログイン</div>
-        <form id="login-form">
+        <form id="login-form" onsubmit="handleSubmit(event)">
             <div class="form-group">
                 <label for="userId">ユーザーID</label>
                 <input type="text" id="userId" name="userId" required>
@@ -80,47 +81,67 @@
         </form>
     </div>
     <script>
-        document.getElementById('login-form').addEventListener('submit', async function (e) {
+        async function handleSubmit(e) {
             e.preventDefault();
 
-            const userId = document.getElementById('userId').value;
-            const sessionId = document.getElementById('sessionId').value;
-            const cic = document.getElementById('cic').value;
-            const urlPath = document.getElementById('urlPath').value;
+            console.log("Form submitted, fetching tokens...");
 
             try {
-                const response = await fetch('http://localhost:3000/api/authenticate', {
+                // CSRFトークンを取得
+                const csrfResponse = await fetch('http://localhost:3000/api/csrf-token');
+                const csrfData = await csrfResponse.json();
+                console.log("CSRF token fetched:", csrfData.csrfToken);
+
+                // セッショントークンを取得
+                const sessionResponse = await fetch('http://localhost:3000/api/session-token', {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ userId, sessionId, cic, urlPath })
+                });
+                const sessionData = await sessionResponse.json();
+                console.log("Session token fetched:", sessionData.sessionToken);
+
+                const csrfToken = csrfData.csrfToken;
+                const sessionToken = sessionData.sessionToken;
+                const userId = document.getElementById('userId').value;
+                const sessionId = document.getElementById('sessionId').value;
+                const cic = document.getElementById('cic').value;
+                const urlPath = document.getElementById('urlPath').value;
+
+                console.log("Form values:", {
+                    csrfToken,
+                    sessionToken,
+                    userId,
+                    sessionId,
+                    cic,
+                    urlPath
                 });
 
-                if (response.ok) {
-                    const data = await response.json();
-                    const token = data.token;
+                const form = document.createElement('form');
+                form.method = 'POST';
+                form.action = 'http://localhost:3000/api/redirect-to-dashboard';
+                form.target = '_blank'; // 新しいウィンドウで開く
 
-                    // ここで取得したトークンを使って、別タブでのリクエストを行う
-                    const form = document.createElement('form');
-                    form.method = 'POST';
-                    form.action = 'http://localhost:3000/api/redirect-to-dashboard';
-                    form.target = '_blank'; // 新しいウィンドウで開く
-                    const hiddenField = document.createElement('input');
-                    hiddenField.type = 'hidden';
-                    hiddenField.name = 'token';
-                    hiddenField.value = token;
-                    form.appendChild(hiddenField);
-                    document.body.appendChild(form);
-                    form.submit();
-                } else {
-                    alert('認証に失敗しました');
-                }
+                const createHiddenField = (name, value) => {
+                    const input = document.createElement('input');
+                    input.type = 'hidden';
+                    input.name = name;
+                    input.value = value;
+                    return input;
+                };
+
+                form.appendChild(createHiddenField('csrfToken', csrfToken));
+                form.appendChild(createHiddenField('sessionToken', sessionToken));
+                form.appendChild(createHiddenField('userId', userId));
+                form.appendChild(createHiddenField('sessionId', sessionId));
+                form.appendChild(createHiddenField('cic', cic));
+                form.appendChild(createHiddenField('urlPath', urlPath));
+
+                document.body.appendChild(form);
+                console.log("Submitting form to new window...");
+                form.submit();
             } catch (error) {
-                console.error('Error:', error);
-                alert('リクエストに失敗しました');
+                console.error("Error during form submission:", error);
             }
-        });
+        }
     </script>
 </body>
 </html>
